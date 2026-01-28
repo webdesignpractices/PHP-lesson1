@@ -1,5 +1,4 @@
 <?php
-
 class Product {
     public $name;
     public $price;
@@ -25,19 +24,23 @@ class Product {
     }
 }
 class Cart {
-    private $items = []; // 商品オブジェクトを入れる配列
+    private $items = [];
 
-    // カートに商品を追加するメソッド
     public function addItem($product) {
         $this->items[] = $product;
     }
 
-    // カート内の全商品の税込合計金額を計算して返すメソッド
+    public function displayAllItems(){
+        foreach($this->items as $item){
+            echo $item->getDetailLine() .PHP_EOL;
+        }
+            echo "------------------------" .PHP_EOL;
+    }
+
     public function getTotalPrice() {
         $total = 0;
         foreach ($this->items as $item) {
-            // 【ここを書いてください！】
-            // 各商品の税込金額を計算して $total に足していく
+
             $subtotal = $item->getSubtotal();
             $taxIncluded = Product::addTax($subtotal);
             $total += $taxIncluded;
@@ -51,6 +54,5 @@ $cart = new Cart();
 $cart->addItem(new Product('Tシャツ', 1500, 2));
 $cart->addItem(new Product('腕時計', 5000, 1));
 
-
+$cart->displayAllItems();
 echo "総合計（税込）: " . number_format($cart->getTotalPrice()) . "円" .PHP_EOL;
-
