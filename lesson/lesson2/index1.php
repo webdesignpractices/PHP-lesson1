@@ -17,6 +17,7 @@ class Product {
     public $price;
     public $count;
     private const TAX_RATE = 1.1;
+    private const postage = 500;
 
     public function __construct($name,$price,$count){
         if($count>0){
@@ -46,6 +47,12 @@ class Order {
         }
         return $total;
     }
+    public function addPostageTotal($sum){
+        if($sum<5000){
+            return $sum+=Product::postage;
+        }
+        return $sum;
+    }
 }
 // $orders = [
 //     ['item' => 'ノートPC', 'price' => 120000, 'count' => 1],
@@ -59,7 +66,8 @@ $item->addItem(new Product('マウス', 3500, 2));
 $item->addItem(new Product('モニター', 25000, 0));
 $item->addItem(new Product('USBメモリ', 1500, 5));
 
-echo $item->Total();
+//echo $item->Total();
+echo $item->addPostageTotal($item->Total());
 // foreach($orders as $order){
 //     $product = new Product($order['item'],$order['price'],$order['count']);
 //     echo "new Product(" . $order['item'] . ", " . $order['price'] . ", " . $order['count'] . ");" . PHP_EOL;
